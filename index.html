@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -100,32 +100,23 @@
         }
 
         .chat-container { 
-    display: flex; 
-    flex-direction: column; /* Элементы ложатся друг под друга */
-    text-align: left; 
-    border-top: 1px solid rgba(255, 255, 255, 0.05); 
-    padding-top: 5px; 
-}
+            display: flex; 
+            flex-direction: column; 
+            text-align: left; 
+            border-top: 1px solid rgba(255, 255, 255, 0.05); 
+            padding-top: 15px; 
+        }
 
-.chat-window { 
-    height: 180px; 
-    background: var(--chat-bg); 
-    padding: 12px; 
-    border-radius: 12px; 
-    margin-top: 10px; /* Отступ СВЕРХУ, так как чат теперь под кнопкой */
-    border: 1px solid rgba(255,255,255,0.05);
-    overflow-y: auto; 
-    order: 3; /* Принудительно отправляем в самый низ */
-}
-
-#msgInput {
-    /* стили остаются те же, добавим порядок */
-    order: 1;
-}
-
-#openLogin {
-    order: 2; /* Кнопка будет между инпутом и чатом */
-}
+        .chat-window { 
+            height: 180px; 
+            background: var(--chat-bg); 
+            padding: 12px; 
+            border-radius: 12px; 
+            margin-top: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+            overflow-y: auto; 
+            order: 3;
+        }
 
         #msgInput {
             width: 100%;
@@ -140,8 +131,10 @@
             margin-bottom: 15px;
             transition: all 0.3s ease;
             box-sizing: border-box;
+            order: 1;
         }
-        #msgInput:focus { border-color: var(--neon-glow); box-shadow: 0 0 15px rgba(0, 247, 255, 0.2); background: rgba(10, 11, 30, 0.8); }
+
+        #openLogin { order: 2; }
 
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -183,10 +176,9 @@
         </div>
 
         <div class="chat-container">
-    <button class="glow-button" id="openLogin" style="width: 100%; padding: 20px; letter-spacing: 4px; font-size: 1.1rem; margin-bottom: 10px;">Проявиться</button>
-    
-    <div class="chat-window" id="chatWindow" style="margin-bottom: 0;"></div>
-</div>
+            <button class="glow-button" id="openLogin" style="width: 100%; padding: 20px; letter-spacing: 4px; font-size: 1.1rem; margin-bottom: 10px;">Проявиться</button>
+            <div class="chat-window" id="chatWindow" style="margin-bottom: 0;"></div>
+        </div>
     </div>
 
     <div class="modal-overlay" id="modal">
@@ -217,6 +209,8 @@
         emailjs.init(CONFIG.EMAILJS_USER);
 
         let currentUser = JSON.parse(localStorage.getItem('iigla_user')) || null;
+        let lastSong = "";
+        
         const audio = document.getElementById('audio');
         const video = document.getElementById('androidVideo');
         const playBtn = document.getElementById('playBtn');
@@ -227,17 +221,13 @@
         const openLogin = document.getElementById('openLogin');
         const syncBtn = document.getElementById('syncBtn');
 
-        // --- БЕЗОПАСНЫЙ ЧАТ (Fix XSS) ---
         function addChatMessage(name, text, isAI = false) {
             const msg = document.createElement('div');
-            msg.style.marginBottom = '5px';
-            
+            msg.style.marginBottom = '8px';
             const nameNode = document.createElement('b');
             nameNode.textContent = `${name}: `;
-            
             const contentSpan = document.createElement('span');
             if (isAI) contentSpan.style.color = 'var(--neon-glow)';
-            
             msg.append(nameNode, contentSpan);
             chatWindow.appendChild(msg);
 
@@ -255,7 +245,6 @@
             }
         }
 
-        // --- ВИЗУАЛИЗАЦИЯ (Fix Memory Leak) ---
         vContainer.innerHTML = Array(64).fill('<div class="v-bar"></div>').join('');
         const vBars = document.querySelectorAll('.v-bar');
         let audioCtx, analyser, dataArray, animationId;
@@ -272,7 +261,7 @@
         }
 
         function renderFrame() {
-            if (audio.paused) return; // Остановка если на паузе
+            if (audio.paused) return;
             animationId = requestAnimationFrame(renderFrame);
             analyser.getByteFrequencyData(dataArray);
             for (let i = 0; i < vBars.length; i++) {
@@ -299,7 +288,6 @@
 
         volumeRange.oninput = () => { audio.volume = volumeRange.value; };
 
-        // --- ИНТЕРФЕЙС И СООБЩЕНИЯ ---
         function initAppInterface() {
             if (!currentUser || document.getElementById('msgInput')) return;
             const chatContainer = document.querySelector('.chat-container');
@@ -309,7 +297,7 @@
             inputField.autocomplete = 'off';
             chatContainer.insertBefore(inputField, openLogin);
             
-            openLogin.innerText = 'ПРОЯВИТЬСЯ';
+            openLogin.innerText = 'ОТПРАВИТЬ';
             openLogin.onclick = sendMessage;
             inputField.onkeypress = (e) => { if(e.key === 'Enter') sendMessage(); };
             subscribeToMessages();
@@ -317,11 +305,15 @@
 
         async function sendMessage() {
             const input = document.getElementById('msgInput');
-            const text = input.value.trim();
-            if (!text) return;
-            input.value = ''; // Мгновенная очистка для UX
-            const { error } = await supabaseClient.from('messages').insert([{ name: currentUser.name, text }]);
-            if (error) console.error("Ошибка отправки:", error);
+            const textContent = input.value.trim();
+            if (!textContent) return;
+            input.value = ''; 
+            
+            // Используем колонки name и text из таблицы messages
+            const { error } = await supabaseClient
+                .from('messages')
+                .insert([{ name: currentUser.name, text: textContent }]);
+            if (error) console.error("Ошибка сигнала:", error);
         }
 
         function subscribeToMessages() {
@@ -330,8 +322,6 @@
             }).subscribe();
         }
 
-        // --- ОБНОВЛЕНИЕ ЭФИРА (Safe Fetch) ---
-        let lastSong = "";
         async function updateInfo() {
             try {
                 const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent('https://myradio24.org/users/iigla/status.json')}&t=${Date.now()}`);
@@ -339,35 +329,54 @@
                 const data = JSON.parse(json.contents);
                 if(data.song && data.song !== lastSong) {
                     lastSong = data.song;
-                    addChatMessage('ИИгла', `Эфир: ${lastSong}`, true);
+                    addChatMessage('ИИгла', `В эфире: ${lastSong}`, true);
                 }
-            } catch(e) { console.warn("Узел связи: помехи в сигнале."); }
+            } catch(e) { console.warn("Помехи в эфире."); }
         }
 
-        // --- МОДАЛЬНОЕ ОКНО И АВТОРИЗАЦИЯ ---
-        openLogin.onclick = () => { if (!currentUser) modal.style.display = 'flex'; };
+        openLogin.onclick = () => { if (!currentUser) modal.style.display = 'flex'; else sendMessage(); };
         document.getElementById('closeModal').onclick = () => modal.style.display = 'none';
 
         syncBtn.onclick = async () => {
             const title = document.getElementById('modalTitle').innerText;
             const inputs = document.querySelectorAll('#modalInputs input');
-            const n = inputs[0].value.trim(), v = inputs[1].value.trim();
-            if (!n || !v) return;
+            const val1 = inputs[0].value.trim(), val2 = inputs[1].value.trim();
+            if (!val1 || !val2) return;
 
             if (title === 'РЕГИСТРАЦИЯ') {
-                const key = `IG-${Math.floor(1000 + Math.random() * 9000)}`;
-                await supabaseClient.from('users_custom').insert([{ name: n, email: v, key }]);
-                emailjs.send(CONFIG.EMAILJS_SERVICE, CONFIG.EMAILJS_TEMPLATE, { to_name: n, to_email: v, key })
-                .then(() => { alert('Ключ в пути.'); document.getElementById('switchToReg').click(); });
+                const generatedKey = `IG-${Math.floor(1000 + Math.random() * 9000)}`;
+                // Используем колонки name, email и key из таблицы users_custom
+                const { error } = await supabaseClient.from('users_custom').insert([
+                    { name: val1, email: val2, key: generatedKey }
+                ]);
+                
+                if (!error) {
+                    emailjs.send(CONFIG.EMAILJS_SERVICE, CONFIG.EMAILJS_TEMPLATE, { to_name: val1, to_email: val2, key: generatedKey })
+                    .then(() => { 
+                        alert('Ключ отправлен на E-mail. Проверь почту.'); 
+                        document.getElementById('switchToReg').click(); 
+                    });
+                } else {
+                    alert('Ошибка регистрации. Проверь RLS политики в Supabase.');
+                }
             } else {
-                const { data } = await supabaseClient.from('users_custom').select('*').eq('name', n).eq('key', v).single();
+                // Вход по колонкам name и key из таблицы users_custom
+                const { data, error } = await supabaseClient
+                    .from('users_custom')
+                    .select('*')
+                    .eq('name', val1)
+                    .eq('key', val2)
+                    .single();
+
                 if (data) {
                     currentUser = data;
                     localStorage.setItem('iigla_user', JSON.stringify(data));
                     modal.style.display = 'none';
                     initAppInterface();
-                    addChatMessage('ИИгла', 'Синхронизация успешна. Приветствую.', true);
-                } else { alert("Неверный ключ."); }
+                    addChatMessage('ИИгла', 'Синхронизация прошла успешно. Добро пожаловать.', true);
+                } else { 
+                    alert("Ключ доступа не принят."); 
+                }
             }
         };
 
@@ -376,28 +385,23 @@
             if(t.innerText === 'АВТОРИЗАЦИЯ') {
                 t.innerText = 'РЕГИСТРАЦИЯ';
                 i.innerHTML = '<input type="text" placeholder="Имя"><input type="email" placeholder="E-mail">';
-                b.innerText = 'Получить ключ'; this.innerText = 'У меня есть ключ';
+                b.innerText = 'Получить ключ'; this.innerText = 'У меня уже есть ключ';
             } else {
                 t.innerText = 'АВТОРИЗАЦИЯ';
                 i.innerHTML = '<input type="text" placeholder="Имя"><input type="password" placeholder="Ключ">';
-                b.innerText = 'Синхронизация'; this.innerText = 'Регистрация';
+                b.innerText = 'Синхронизация'; this.innerText = 'Создать профиль';
             }
         };
 
-// Запуск интервала обновления информации об эфире
-            setInterval(updateInfo, 15000);
-            updateInfo();
+        setInterval(updateInfo, 15000);
+        updateInfo();
 
-// Логика приветствия при загрузке страницы
-           if (currentUser) {
-         initAppInterface();
-    // Приветствуем по имени из сохраненных данных
-          addChatMessage('ИИгла', `Связь восстановлена. Приветствую, ${currentUser.name}!`, true);
-           } else {
-    // Если пользователь еще не залогинился
-          addChatMessage('ИИгла', 'Узел связи активен. Синхронизируем цели. Проявляйся!', true);
-      }
+        if (currentUser) {
+            initAppInterface();
+            addChatMessage('ИИгла', `Связь восстановлена. Приветствую, ${currentUser.name}!`, true);
+        } else {
+            addChatMessage('ИИгла', 'Узел связи активен. Синхронизируем цели. Проявляйся!', true);
+        }
     </script>
 </body>
-
 </html>
