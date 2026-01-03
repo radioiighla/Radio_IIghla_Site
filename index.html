@@ -10,98 +10,160 @@
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
 <style>
-    :root {
-        --bg-deep: #0a0b1e;
-        --container-bg: #0f1123;
-        --player-bg: #1e223a;
-        --chat-bg: #161a30;
-        --neon-glow: #00f7ff;
-        --text-main: #e0e0ff;
-        --sh-dark: rgba(0, 0, 0, 0.7);
-    }
+        :root {
+            --bg-deep: #0a0b1e;
+            --container-bg: #0f1123;
+            --player-bg: #1e223a;
+            --chat-bg: #161a30;
+            --neon-glow: #00f7ff;
+            --text-main: #e0e0ff;
+            --sh-dark: rgba(0, 0, 0, 0.7);
+        }
 
-    body {
-        margin: 0;
-        padding: 0; /* Убрали падинги у body */
-        background: var(--bg-deep);
-        color: var(--text-main);
-        font-family: 'Montserrat', sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center; /* Центрируем по вертикали */
-        min-height: 100vh;
-        background: radial-gradient(circle at center, #161833 0%, #0a0b1e 100%);
-    }
+        body {
+            margin: 0; padding: 5px;
+            background: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh;
+            background: radial-gradient(circle at center, #161833 0%, #0a0b1e 100%);
+        }
 
-    .main-container {
-        width: 100%;
-        max-width: 500px;
-        /* Убираем лишние отступы, оставляем только внутренние */
-        padding: 10px; 
-        background: var(--container-bg);
-        border: 1px solid rgba(0, 247, 255, 0.3);
-        border-radius: 20px;
-        box-shadow: 0 0 30px rgba(0,0,0,0.8);
-        overflow: hidden; /* Чтобы видео не вылезало за скругленные углы */
-    }
+        .glow-button {
+            background: var(--container-bg);
+            border: 1px solid rgba(0, 247, 255, 0.3);
+            color: var(--neon-glow);
+            border-radius: 12px;
+            cursor: pointer;
+            text-transform: uppercase;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 6px 6px 12px var(--sh-dark);
+            display: flex; align-items: center; justify-content: center;
+        }
 
-    #androidVideo { 
-        width: 100%; 
-        display: block; /* Убирает микро-зазор снизу видео */
-        border-radius: 12px;
-        margin-bottom: 0; 
-    }
+        .glow-button:hover {
+            border-color: var(--neon-glow);
+            box-shadow: 0 0 20px var(--neon-glow);
+            color: #fff;
+        }
 
-    h1 { 
-        margin: 10px 0 0 0; /* Убрали нижний отступ */
-        font-size: 1.6rem; 
-        letter-spacing: 3px;
-    }
+        .main-container {
+            width: 100%; max-width: 700px; padding: 5px;
+            background: var(--container-bg);
+            border: 1px solid rgba(0, 247, 255, 0.4);
+            border-radius: 18px; text-align: center;
+        }
 
-    .slogan { 
-        margin: 5px 0 15px 0; /* Минимальные отступы для плотности */
-        font-size: 0.8rem; 
-        color: #5c6299; 
-    }
+        #androidVideo { width: 100%; max-height: 300px; object-fit: cover; border-radius: 8px; filter: brightness(1.1); }
+        h1 { letter-spacing: 10px; text-transform: uppercase; margin: 25px 0 10px; font-size: 2.2rem; }
+        .slogan { font-size: 1rem; letter-spacing: 4px; color: #5c6299; margin-bottom: 30px; }
 
-    .player-box {
-        margin: 0 0 10px 0; /* Плотно к чату */
-        padding: 15px;
-        background: var(--player-bg);
-        border-radius: 15px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
+        .player-box {
+            display: flex; align-items: center; gap: 20px; padding: 20px 25px;
+            background: var(--player-bg);
+            border-radius: 15px; margin-bottom: 30px;
+        }
 
-    .glow-button {
-        background: var(--container-bg);
-        border: 1px solid rgba(0, 247, 255, 0.3);
-        color: var(--neon-glow);
-        border-radius: 10px;
-        cursor: pointer;
-        transition: 0.3s;
-    }
+        .play-btn { width: 55px; height: 55px; border-radius: 50%; font-size: 20px; flex-shrink: 0; }
 
-    /* Исправление для визуализатора полосок */
-    .v-bar {
-        width: 3px;
-        margin: 0 1px;
-        background: var(--neon-glow);
-    }
+        .visual-container {
+            flex-grow: 1; display: flex; align-items: flex-end; justify-content: center; gap: 4px; height: 45px; overflow: hidden;
+        }
+        .v-bar {
+            width: 5px; height: 5px; background: linear-gradient(to top, #00f7ff, #00ff22, #ffee00, #ff0000); border-radius: 2px;
+            transition: height 0.1s ease;
+            will-change: height;
+        }
 
-    .chat-window { 
-        height: 180px; 
-        background: var(--chat-bg); 
-        border-radius: 0 0 12px 12px; /* Скругляем только низ */
-        padding: 10px;
-    }
+        .volume-box { display: flex; align-items: center; gap: 12px; width: 130px; }
+        .volume-icon { width: 20px; height: 20px; fill: var(--neon-glow); flex-shrink: 0; filter: drop-shadow(0 0 2px var(--neon-glow)); }
+        
+        #volumeRange { -webkit-appearance: none; width: 100%; background: transparent; cursor: pointer; }
+        #volumeRange::-webkit-slider-runnable-track { width: 100%; height: 5px; background: rgba(0, 247, 255, 0.1); border-radius: 3px; }
+        
+        #volumeRange::-webkit-slider-thumb {
+            height: 16px; width: 16px; border-radius: 50%; 
+            background: var(--bg-deep); 
+            border: 2px solid var(--neon-glow);
+            -webkit-appearance: none; 
+            margin-top: -6px; 
+            box-shadow: 0 0 8px var(--neon-glow); 
+            transition: all 0.3s ease;
+        }
 
-    #msgInput {
-        margin: 0; /* Убираем отступ, чтобы прилипал к кнопке или окну */
-        border-radius: 12px 12px 0 0; /* Скругляем только верх */
-    }
-</style>
+        #volumeRange:hover::-webkit-slider-thumb {
+            background: var(--neon-glow);
+            box-shadow: 0 0 18px var(--neon-glow), 0 0 5px #fff;
+            transform: scale(1.2);
+        }
+
+        .chat-container { 
+    display: flex; 
+    flex-direction: column; /* Элементы ложатся друг под друга */
+    text-align: left; 
+    border-top: 1px solid rgba(255, 255, 255, 0.05); 
+    padding-top: 5px; 
+}
+
+.chat-window { 
+    height: 180px; 
+    background: var(--chat-bg); 
+    padding: 12px; 
+    border-radius: 12px; 
+    margin-top: 10px; /* Отступ СВЕРХУ, так как чат теперь под кнопкой */
+    border: 1px solid rgba(255,255,255,0.05);
+    overflow-y: auto; 
+    order: 3; /* Принудительно отправляем в самый низ */
+}
+
+#msgInput {
+    /* стили остаются те же, добавим порядок */
+    order: 1;
+}
+
+#openLogin {
+    order: 2; /* Кнопка будет между инпутом и чатом */
+}
+
+        #msgInput {
+            width: 100%;
+            background: rgba(10, 11, 30, 0.6);
+            border: 1px solid rgba(0, 247, 255, 0.2);
+            border-radius: 12px;
+            padding: 15px 20px;
+            color: var(--neon-glow);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+        #msgInput:focus { border-color: var(--neon-glow); box-shadow: 0 0 15px rgba(0, 247, 255, 0.2); background: rgba(10, 11, 30, 0.8); }
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); display: none; justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(8px);
+        }
+        .modal-content {
+            background: var(--container-bg); padding: 50px 40px; border: 1px solid var(--neon-glow); 
+            width: 380px; text-align: center; position: relative; border-radius: 18px;
+        }
+        .close-modal { position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; }
+        .modal-content input {
+            width: 100%; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(0, 247, 255, 0.2); 
+            padding: 15px; margin-bottom: 15px; color: white; box-sizing: border-box; border-radius: 8px; outline: none;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 10px; align-items: flex-start; }
+            .main-container { padding: 20px 15px; border: none; background: transparent; }
+            h1 { font-size: 1.5rem; letter-spacing: 5px; }
+            .player-box { flex-direction: column; gap: 15px; }
+        }
+    </style>
 </head>
 <body>
 
@@ -350,5 +412,6 @@
     </script>
 </body>
 </html>
+
 
 
