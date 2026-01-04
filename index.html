@@ -53,11 +53,15 @@
             color: #fff;
         }
 
-        .main-container {
-            width: 100%; max-width: 700px; padding: 5px;
+       .main-container {
+            width: 100%; 
+            max-width: 500px; /* Уменьшим до 500px, чтобы сайт выглядел аккуратнее и плотнее, как на твоем первом фото */
+            padding: 15px; /* Внутренние отступы, чтобы элементы внутри не жались к рамке */
             background: var(--container-bg);
-            border: 1px solid rgba(0, 247, 255, 0.4);
-            border-radius: 18px; text-align: center;
+            border: 1px solid rgba(0, 247, 255, 0.2); /* Делаем рамку чуть нежнее */
+            border-radius: 20px; /* Более мягкие скругления углов */
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5); /* Добавляем объемную тень */
         }
 
         #androidVideo { width: 100%; max-height: 300px; object-fit: cover; border-radius: 8px; filter: brightness(1.1); }
@@ -416,6 +420,7 @@
     </script>
 </body>
 </html>
+
 
 
 
