@@ -73,17 +73,18 @@
             filter: brightness(1.1); 
             margin-bottom: 10px; /* Отступ от видео до заголовка */
         }
-      .player-box {
+     .player-box {
             display: flex; 
             align-items: center; 
-            gap: 15px; 
-            padding: 15px; 
+            justify-content: space-between;
+            gap: 10px; 
+            padding: 10px 15px; 
             background: var(--player-bg);
-            /* Добавляем бортик как у видео и чата */
+            /* Тот самый бортик, как у видео-бокса */
             border: 1px solid rgba(0, 247, 255, 0.2); 
             border-radius: 12px; 
             margin: 20px 0;
-            box-sizing: border-box; /* Чтобы рамка не раздувала блок */
+            box-sizing: border-box;
         }
     h1 { 
             letter-spacing: 10px; 
@@ -448,6 +449,7 @@
     </script>
 </body>
 </html>
+
 
 
 
