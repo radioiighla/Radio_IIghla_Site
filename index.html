@@ -106,13 +106,13 @@
         }
 
         .v-bar {
-            width: 4px; /* Сделаем полоски чуть толще */
+            width: 3px; 
             height: 5px; 
-            background: linear-gradient(to top, #00f7ff, #00ff22, #ffee00); 
+            /* Добавляем красный в конец градиента */
+            background: linear-gradient(to top, #00f7ff, #00ff22, #ffee00, #ff0000); 
             border-radius: 2px;
             transition: height 0.1s ease;
         }
-
         .volume-box { display: flex; align-items: center; gap: 12px; width: 130px; }
         .volume-icon { width: 20px; height: 20px; fill: var(--neon-glow); flex-shrink: 0; filter: drop-shadow(0 0 2px var(--neon-glow)); }
         
@@ -448,6 +448,7 @@
     </script>
 </body>
 </html>
+
 
 
 
