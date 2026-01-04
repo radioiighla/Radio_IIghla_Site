@@ -20,14 +20,18 @@
             --sh-dark: rgba(0, 0, 0, 0.7);
         }
 
-        body {
-            margin: 0; padding: 5px;
+       body {
+            margin: 0; 
+            padding: 10px; /* Добавляем небольшие отступы, чтобы на телефонах контент не касался краев экрана */
             background: var(--bg-deep);
             color: var(--text-main);
             font-family: 'Montserrat', sans-serif;
-            display: flex; align-items: center; justify-content: center;
-            min-height: 100vh;
+            display: flex; 
+            align-items: center; /* Центрируем содержимое по вертикали (высоте) */
+            justify-content: center; /* Центрируем содержимое по горизонтали (ширине) */
+            min-height: 100vh; /* Растягиваем фон на всю высоту экрана */
             background: radial-gradient(circle at center, #161833 0%, #0a0b1e 100%);
+            box-sizing: border-box; /* Важно: чтобы отступы не увеличивали размер самого сайта */
         }
 
         .glow-button {
@@ -412,6 +416,7 @@
     </script>
 </body>
 </html>
+
 
 
 
