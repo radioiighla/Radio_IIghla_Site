@@ -66,50 +66,35 @@
         .visual-container { flex-grow: 1; display: flex; align-items: flex-end; justify-content: center; gap: 3px; height: 35px; overflow: hidden; }
         .v-bar { width: 3px; height: 5px; background: linear-gradient(to top, #00f7ff, #00ff22, #ffee00, #ff0000); border-radius: 2px; transition: height 0.1s ease; }
 
-        /* --- СТИЛИЗАЦИЯ ПОЛЗУНКА ЗВУКА --- */
+        /* ПОЛЗУНОК ЗВУКА */
         .volume-box { display: flex; align-items: center; gap: 12px; width: 130px; }
         .volume-icon { width: 20px; height: 20px; fill: var(--neon-glow); filter: drop-shadow(0 0 5px var(--neon-glow)); }
 
         #volumeRange { -webkit-appearance: none; width: 100%; background: transparent; cursor: pointer; }
-        
-        #volumeRange::-webkit-slider-runnable-track {
-            width: 100%; height: 2px; background: rgba(0, 247, 255, 0.1); border-radius: 2px;
-        }
-
+        #volumeRange::-webkit-slider-runnable-track { width: 100%; height: 2px; background: rgba(0, 247, 255, 0.1); border-radius: 2px; }
         #volumeRange::-webkit-slider-thumb {
             -webkit-appearance: none; height: 14px; width: 14px; border-radius: 50%;
-            background: var(--container-bg); 
-            border: 1px solid var(--neon-glow); 
-            margin-top: -6px; 
-            box-shadow: 0 0 5px rgba(0, 247, 255, 0.4); 
-            transition: all 0.3s ease;
+            background: var(--container-bg); border: 1px solid var(--neon-glow);
+            margin-top: -6px; box-shadow: 0 0 5px rgba(0, 247, 255, 0.4); transition: all 0.3s ease;
         }
+        #volumeRange:hover::-webkit-slider-thumb { box-shadow: 0 0 15px var(--neon-glow); transform: scale(1.1); }
 
-        #volumeRange:hover::-webkit-slider-thumb {
-            box-shadow: 0 0 15px var(--neon-glow); 
-            transform: scale(1.1);
-        }
-
-        /* --- СТИЛИЗАЦИЯ ЧАТА И СКРОЛЛБАРА --- */
+        /* ЧАТ И СКРОЛЛБАР */
         .chat-container { display: flex; flex-direction: column; text-align: left; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 5px; }
-
         .chat-window {
             height: 180px; background: var(--chat-bg); padding: 12px; border-radius: 12px;
             margin-top: 10px; border: 1px solid rgba(0, 247, 255, 0.1);
-            overflow-y: auto; display: flex; flex-direction: column-reverse; /* Реверс для новых сообщений снизу */
+            overflow-y: auto; display: flex; flex-direction: column-reverse;
             scrollbar-width: thin; scrollbar-color: rgba(0, 247, 255, 0.2) transparent;
         }
 
-        /* Хром и другие браузеры */
         .chat-window::-webkit-scrollbar { width: 4px; }
         .chat-window::-webkit-scrollbar-track { background: transparent; }
         .chat-window::-webkit-scrollbar-thumb {
             background: rgba(0, 247, 255, 0.1); border-radius: 10px;
             border: 1px solid rgba(0, 247, 255, 0.1); transition: all 0.3s ease;
         }
-        .chat-window:hover::-webkit-scrollbar-thumb {
-            background: rgba(0, 247, 255, 0.3); box-shadow: 0 0 10px rgba(0, 247, 255, 0.4);
-        }
+        .chat-window:hover::-webkit-scrollbar-thumb { background: rgba(0, 247, 255, 0.3); box-shadow: 0 0 10px rgba(0, 247, 255, 0.4); }
 
         #msgInput { 
             width: 100%; background: rgba(10, 11, 30, 0.6); border: 1px solid rgba(0, 247, 255, 0.2);
@@ -209,7 +194,7 @@
             if (isAI) contentSpan.style.color = 'var(--neon-glow)';
             msg.append(nameNode, contentSpan);
             
-            chatWindow.prepend(msg); // Новые сообщения сверху!
+            chatWindow.prepend(msg); // Новые сообщения снизу из-за column-reverse!
 
             if (isAI) {
                 let i = 0;
@@ -379,16 +364,6 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
 
 
 
