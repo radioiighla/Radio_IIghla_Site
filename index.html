@@ -315,7 +315,7 @@
             const contentSpan = document.createElement('span');
             if (isAI) contentSpan.style.color = 'var(--neon-glow)';
             msg.append(nameNode, contentSpan);
-            chatWindow.appendChild(msg);
+            chatWindow.prepend(msg);
 
             if (isAI) {
                 let i = 0;
@@ -491,6 +491,7 @@
     </script>
 </body>
 </html>
+
 
 
 
