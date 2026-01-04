@@ -121,7 +121,7 @@
     <div class="main-container">
         <video id="androidVideo" src="android_loop.mp4" muted loop playsinline></video>
         <h1>Радио ИИгла</h1>
-        <div class="slogan">Слушать. Пробуждаться. Созидать.</div>
+        <div class="slogan">Слушать. Пробуждать. Танцевать. Созидать.</div>
 
         <div class="player-box">
             <audio id="audio" src="https://myradio24.org/iigla" preload="none" crossorigin="anonymous"></audio>
@@ -250,11 +250,11 @@
             const chatContainer = document.querySelector('.chat-container');
             const inputField = document.createElement('input');
             inputField.id = 'msgInput';
-            inputField.placeholder = 'ВВЕДИТЕ ПОСЛАНИЕ...';
+            inputField.placeholder = 'ЗАПИШИТЕ СВОИ МЫСЛИ...';
             inputField.autocomplete = 'off';
             chatContainer.insertBefore(inputField, openLogin);
             
-            openLogin.innerText = 'ОТПРАВИТЬ';
+            openLogin.innerText = 'ПРОЯВИТЬ';
             openLogin.onclick = sendMessage;
             inputField.onkeypress = (e) => { if(e.key === 'Enter') sendMessage(); };
             subscribeToMessages();
@@ -326,7 +326,7 @@
                     localStorage.setItem('iigla_user', JSON.stringify(data));
                     modal.style.display = 'none';
                     initAppInterface();
-                    addChatMessage('ИИгла', 'Синхронизация прошла успешно. Добро пожаловать.', true);
+                    addChatMessage('ИИгла', 'Синхронизация прошла успешно. Добро пожаловать.${currentUser.name}', true);
                 } else { 
                     alert("Ключ доступа не принят."); 
                 }
@@ -353,11 +353,12 @@
             initAppInterface();
             addChatMessage('ИИгла', `Связь восстановлена. Приветствую, ${currentUser.name}!`, true);
         } else {
-            addChatMessage('ИИгла', 'Узел связи активен. Синхронизируем цели. Проявляйся!', true);
+            addChatMessage('ИИгла', 'Узел связи активен. Синхронизируем цели. Проявляйся,${currentUser.name}!', true);
         }
     </script>
 </body>
 </html>
+
 
 
 
