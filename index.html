@@ -17,7 +17,6 @@
             --chat-bg: #161a30;
             --neon-glow: #00f7ff;
             --text-main: #e0e0ff;
-            --sh-dark: rgba(0, 0, 0, 0.7);
         }
 
         body {
@@ -27,7 +26,6 @@
             box-sizing: border-box;
         }
 
-        /* ОБЩИЙ СТИЛЬ КНОПОК */
         .glow-button {
             background: var(--container-bg); border: 1px solid rgba(0, 247, 255, 0.3);
             color: var(--neon-glow); border-radius: 12px; cursor: pointer;
@@ -58,15 +56,11 @@
 
         h1 { letter-spacing: 10px; text-transform: uppercase; margin: 10px 0 0px; font-size: clamp(1.2rem, 5vw, 2rem); color: var(--neon-glow); text-shadow: 0 0 10px rgba(0, 247, 255, 0.3); }
 
-        .play-btn { 
-            width: 55px; height: 55px; border-radius: 50%; font-size: 20px; flex-shrink: 0;
-            box-shadow: 0 0 15px rgba(0, 247, 255, 0.2);
-        }
+        .play-btn { width: 55px; height: 55px; border-radius: 50%; font-size: 20px; flex-shrink: 0; box-shadow: 0 0 15px rgba(0, 247, 255, 0.2); }
 
         .visual-container { flex-grow: 1; display: flex; align-items: flex-end; justify-content: center; gap: 3px; height: 35px; overflow: hidden; }
         .v-bar { width: 3px; height: 5px; background: linear-gradient(to top, #00f7ff, #00ff22, #ffee00, #ff0000); border-radius: 2px; transition: height 0.1s ease; }
 
-        /* ПОЛЗУНОК ЗВУКА */
         .volume-box { display: flex; align-items: center; gap: 12px; width: 130px; }
         .volume-icon { width: 20px; height: 20px; fill: var(--neon-glow); filter: drop-shadow(0 0 5px var(--neon-glow)); }
 
@@ -79,12 +73,13 @@
         }
         #volumeRange:hover::-webkit-slider-thumb { box-shadow: 0 0 15px var(--neon-glow); transform: scale(1.1); }
 
-        /* ЧАТ И СКРОЛЛБАР */
         .chat-container { display: flex; flex-direction: column; text-align: left; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 5px; }
+        
+        /* ИСПРАВЛЕННОЕ ОКНО ЧАТА */
         .chat-window {
             height: 180px; background: var(--chat-bg); padding: 12px; border-radius: 12px;
             margin-top: 10px; border: 1px solid rgba(0, 247, 255, 0.1);
-            overflow-y: auto; display: flex; flex-direction: column-reverse;
+            overflow-y: auto; 
             scrollbar-width: thin; scrollbar-color: rgba(0, 247, 255, 0.2) transparent;
         }
 
@@ -103,7 +98,6 @@
         }
         #msgInput:focus { border-color: var(--neon-glow); box-shadow: 0 0 15px rgba(0, 247, 255, 0.2); background: rgba(10, 11, 30, 0.8); }
 
-        /* МОДАЛЬНОЕ ОКНО */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); display: none; justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(8px); }
         .modal-content { background: var(--container-bg); padding: 50px 40px; border: 1px solid var(--neon-glow); width: 380px; text-align: center; position: relative; border-radius: 18px; box-shadow: 0 0 30px rgba(0, 247, 255, 0.2); }
         .close-modal { position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; }
@@ -194,7 +188,7 @@
             if (isAI) contentSpan.style.color = 'var(--neon-glow)';
             msg.append(nameNode, contentSpan);
             
-            chatWindow.prepend(msg); // Новые сообщения снизу из-за column-reverse!
+            chatWindow.prepend(msg); // Всегда вставляет на самый верх!
 
             if (isAI) {
                 let i = 0;
@@ -364,6 +358,7 @@
     </script>
 </body>
 </html>
+
 
 
 
