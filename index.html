@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
-<style>
+    <style>
         :root {
             --bg-deep: #0a0b1e;
             --container-bg: #0f1123;
@@ -20,18 +20,18 @@
             --sh-dark: rgba(0, 0, 0, 0.7);
         }
 
-       body {
+        body {
             margin: 0; 
-            padding: 10px; /* Добавляем небольшие отступы, чтобы на телефонах контент не касался краев экрана */
+            padding: 10px;
             background: var(--bg-deep);
             color: var(--text-main);
             font-family: 'Montserrat', sans-serif;
             display: flex; 
-            align-items: center; /* Центрируем содержимое по вертикали (высоте) */
-            justify-content: center; /* Центрируем содержимое по горизонтали (ширине) */
-            min-height: 100vh; /* Растягиваем фон на всю высоту экрана */
+            align-items: center; 
+            justify-content: center; 
+            min-height: 100vh; 
             background: radial-gradient(circle at center, #161833 0%, #0a0b1e 100%);
-            box-sizing: border-box; /* Важно: чтобы отступы не увеличивали размер самого сайта */
+            box-sizing: border-box;
         }
 
         .glow-button {
@@ -53,55 +53,57 @@
             color: #fff;
         }
 
-       .main-container {
+        .main-container {
             width: 100%; 
-            max-width: 500px; /* Уменьшим до 500px, чтобы сайт выглядел аккуратнее и плотнее, как на твоем первом фото */
-            padding: 15px; /* Внутренние отступы, чтобы элементы внутри не жались к рамке */
+            max-width: 500px; 
+            padding: 15px; 
             background: var(--container-bg);
-            border: 1px solid rgba(0, 247, 255, 0.2); /* Делаем рамку чуть нежнее */
-            border-radius: 20px; /* Более мягкие скругления углов */
+            border: 1px solid rgba(0, 247, 255, 0.2); 
+            border-radius: 20px; 
             text-align: center;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5); /* Добавляем объемную тень */
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5); 
         }
 
-       #androidVideo { 
+        #androidVideo { 
             width: 100%; 
-            height: auto; /* Высота будет подстраиваться автоматически под ширину */
-            max-height: 250px; /* Ограничим высоту, чтобы на экране оставалось место для плеера и чата */
-            object-fit: cover; /* Видео красиво заполнит отведенное место без черных полос */
+            height: auto; 
+            max-height: 250px; 
+            object-fit: cover; 
             border-radius: 12px; 
             filter: brightness(1.1); 
-            margin-bottom: 10px; /* Отступ от видео до заголовка */
+            margin-bottom: 10px; 
         }
-     .player-box {
+
+        .player-box {
             display: flex; 
             align-items: center; 
             justify-content: space-between;
             gap: 10px; 
             padding: 10px 15px; 
             background: var(--player-bg);
-            /* Тот самый бортик, как у видео-бокса */
             border: 1px solid rgba(0, 247, 255, 0.2); 
             border-radius: 12px; 
             margin: 10px 0;
             box-sizing: border-box;
         }
-    h1 { 
+
+        h1 { 
             letter-spacing: 10px; 
             text-transform: uppercase; 
             margin: 10px 0 0px; 
-            font-size: clamp(1.2rem, 5vw, 2rem); /* Шрифт сам подстроится под экран телефона и ПК */
+            font-size: clamp(1.2rem, 5vw, 2rem); 
             color: var(--neon-glow);
             text-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
         }
+
         .play-btn { width: 55px; height: 55px; border-radius: 50%; font-size: 20px; flex-shrink: 0; }
 
-       .visual-container {
+        .visual-container {
             flex-grow: 1; 
             display: flex; 
             align-items: flex-end; 
             justify-content: center; 
-            gap: 3px; /* Немного увеличим зазор */
+            gap: 3px; 
             height: 35px; 
             overflow: hidden;
         }
@@ -109,17 +111,16 @@
         .v-bar {
             width: 3px; 
             height: 5px; 
-            /* Добавляем красный в конец градиента */
             background: linear-gradient(to top, #00f7ff, #00ff22, #ffee00, #ff0000); 
             border-radius: 2px;
             transition: height 0.1s ease;
         }
+
         .volume-box { display: flex; align-items: center; gap: 12px; width: 130px; }
         .volume-icon { width: 20px; height: 20px; fill: var(--neon-glow); flex-shrink: 0; filter: drop-shadow(0 0 2px var(--neon-glow)); }
         
         #volumeRange { -webkit-appearance: none; width: 100%; background: transparent; cursor: pointer; }
         #volumeRange::-webkit-slider-runnable-track { width: 100%; height: 5px; background: rgba(0, 247, 255, 0.1); border-radius: 3px; }
-        
         #volumeRange::-webkit-slider-thumb {
             height: 16px; width: 16px; border-radius: 50%; 
             background: var(--bg-deep); 
@@ -130,55 +131,31 @@
             transition: all 0.3s ease;
         }
 
-        #volumeRange:hover::-webkit-slider-thumb {
-            background: var(--neon-glow);
-            box-shadow: 0 0 18px var(--neon-glow), 0 0 5px #fff;
-            transform: scale(1.2);
-        }
-
         .chat-container { 
-    display: flex; 
-    flex-direction: column; /* Элементы ложатся друг под друга */
-    text-align: left; 
-    border-top: 1px solid rgba(255, 255, 255, 0.05); 
-    padding-top: 5px; 
-}
-
-.chat-window { 
-    height: 180px; 
-    background: var(--chat-bg); 
-    padding: 12px; 
-    border-radius: 12px; 
-    margin-top: 10px; /* Отступ СВЕРХУ, так как чат теперь под кнопкой */
-    border: 1px solid rgba(255,255,255,0.05);
-    overflow-y: auto; 
-    order: 3; /* Принудительно отправляем в самый низ */
-}
-
-#msgInput {
-    /* стили остаются те же, добавим порядок */
-    order: 1;
-}
-
-#openLogin {
-    order: 2; /* Кнопка будет между инпутом и чатом */
-}
-
-        #msgInput {
-            width: 100%;
-            background: rgba(10, 11, 30, 0.6);
-            border: 1px solid rgba(0, 247, 255, 0.2);
-            border-radius: 12px;
-            padding: 15px 20px;
-            color: var(--neon-glow);
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1rem;
-            outline: none;
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-            box-sizing: border-box;
+            display: flex; 
+            flex-direction: column; 
+            text-align: left; 
+            border-top: 1px solid rgba(255, 255, 255, 0.05); 
+            padding-top: 5px; 
         }
+
+        .chat-window { 
+            height: 180px; 
+            background: var(--chat-bg); 
+            padding: 12px; 
+            border-radius: 12px; 
+            margin-top: 10px; 
+            border: 1px solid rgba(255,255,255,0.05);
+            overflow-y: auto; 
+            order: 3;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #msgInput { order: 1; width: 100%; background: rgba(10, 11, 30, 0.6); border: 1px solid rgba(0, 247, 255, 0.2); border-radius: 12px; padding: 15px 20px; color: var(--neon-glow); font-family: 'Montserrat', sans-serif; font-size: 1rem; outline: none; margin-bottom: 15px; transition: all 0.3s ease; box-sizing: border-box; }
         #msgInput:focus { border-color: var(--neon-glow); box-shadow: 0 0 15px rgba(0, 247, 255, 0.2); background: rgba(10, 11, 30, 0.8); }
+
+        #openLogin { order: 2; }
 
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -194,53 +171,16 @@
             padding: 15px; margin-bottom: 15px; color: white; box-sizing: border-box; border-radius: 8px; outline: none;
         }
 
-       @media (max-width: 600px) {
-            body { padding: 5px; }
-            /* Убираем лишние отступы у контейнера */
-            .main-container { 
-                padding: 10px 10px 5px; 
-                border: none; 
-                background: transparent; 
-                box-shadow: none; 
-            }
-            
-            h1 { 
-                font-size: 1.2rem; 
-                letter-spacing: 4px; 
-                margin: 5px 0 0; /* Подтягиваем заголовок выше к видео */
-            }
-
-            .slogan {
-                margin-bottom: 5px; /* Уменьшаем дырку под слоганом */
-                font-size: 0.75rem;
-            }
-
-            video {
-                margin-bottom: 2px; /* Почти вплотную к буквам */
-                max-height: 200px;  /* Чуть меньше видео, чтобы влез чат */
-            }
-
-            .player-box {
-                margin: 5px 0; 
-                padding: 8px;
-                flex-direction: row !important;
-                flex-wrap: nowrap;
-            }
-
+        @media (max-width: 600px) {
+            .main-container { padding: 10px 10px 5px; border: none; background: transparent; box-shadow: none; }
+            h1 { font-size: 1.2rem; letter-spacing: 4px; margin: 5px 0 0; }
+            .slogan { margin-bottom: 5px; font-size: 0.75rem; }
+            video { max-height: 200px; }
+            .player-box { margin: 5px 0; padding: 8px; }
             .play-btn { width: 42px; height: 42px; font-size: 16px; }
             .volume-box { width: 85px; gap: 5px; }
-            .volume-icon { width: 15px; }
             .visual-container { gap: 2px; height: 30px; }
-
-            .chat-window {
-                height: 140px; /* Немного уменьшаем высоту чата для маленьких экранов */
-                margin-top: 5px;
-            }
-            
-            #msgInput {
-                padding: 10px;
-                margin-bottom: 8px;
-            }
+            .chat-window { height: 140px; margin-top: 5px; }
         }
     </style>
 </head>
@@ -263,7 +203,7 @@
 
         <div class="chat-container">
             <button class="glow-button" id="openLogin" style="width: 100%; padding: 20px; letter-spacing: 4px; font-size: 1.1rem; margin-bottom: 10px;">Проявиться</button>
-            <div class="chat-window" id="chatWindow" style="margin-bottom: 0;"></div>
+            <div class="chat-window" id="chatWindow"></div>
         </div>
     </div>
 
@@ -315,7 +255,8 @@
             const contentSpan = document.createElement('span');
             if (isAI) contentSpan.style.color = 'var(--neon-glow)';
             msg.append(nameNode, contentSpan);
-            chatWindow.prepend(msg);
+            
+            chatWindow.prepend(msg); // Новые сообщения сверху!
 
             if (isAI) {
                 let i = 0;
@@ -323,11 +264,9 @@
                     contentSpan.textContent += text[i];
                     i++;
                     if (i >= text.length) clearInterval(interval);
-                    chatWindow.scrollTop = chatWindow.scrollHeight;
                 }, 40);
             } else {
                 contentSpan.textContent = text;
-                chatWindow.scrollTop = chatWindow.scrollHeight;
             }
         }
 
@@ -394,8 +333,6 @@
             const textContent = input.value.trim();
             if (!textContent) return;
             input.value = ''; 
-            
-            // Используем колонки name и text из таблицы messages
             const { error } = await supabaseClient
                 .from('messages')
                 .insert([{ name: currentUser.name, text: textContent }]);
@@ -431,7 +368,6 @@
 
             if (title === 'РЕГИСТРАЦИЯ') {
                 const generatedKey = `IG-${Math.floor(1000 + Math.random() * 9000)}`;
-                // Используем колонки name, email и key из таблицы users_custom
                 const { error } = await supabaseClient.from('users_custom').insert([
                     { name: val1, email: val2, key: generatedKey }
                 ]);
@@ -443,10 +379,9 @@
                         document.getElementById('switchToReg').click(); 
                     });
                 } else {
-                    alert('Ошибка регистрации. Проверь RLS политики в Supabase.');
+                    alert('Ошибка регистрации. Возможно, имя уже занято.');
                 }
             } else {
-                // Вход по колонкам name и key из таблицы users_custom
                 const { data, error } = await supabaseClient
                     .from('users_custom')
                     .select('*')
@@ -491,6 +426,7 @@
     </script>
 </body>
 </html>
+
 
 
 
