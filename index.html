@@ -21,155 +21,111 @@
         }
 
         body {
-            margin: 0; 
-            padding: 10px;
-            background: var(--bg-deep);
-            color: var(--text-main);
-            font-family: 'Montserrat', sans-serif;
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            min-height: 100vh; 
-            background: radial-gradient(circle at center, #161833 0%, #0a0b1e 100%);
+            margin: 0; padding: 10px; background: var(--bg-deep); color: var(--text-main);
+            font-family: 'Montserrat', sans-serif; display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; background: radial-gradient(circle at center, #161833 0%, #0a0b1e 100%);
             box-sizing: border-box;
         }
 
+        /* ОБЩИЙ СТИЛЬ КНОПОК */
         .glow-button {
-            background: var(--container-bg);
-            border: 1px solid rgba(0, 247, 255, 0.3);
-            color: var(--neon-glow);
-            border-radius: 12px;
-            cursor: pointer;
-            text-transform: uppercase;
-            outline: none;
-            transition: all 0.3s ease;
-            box-shadow: 6px 6px 12px var(--sh-dark);
+            background: var(--container-bg); border: 1px solid rgba(0, 247, 255, 0.3);
+            color: var(--neon-glow); border-radius: 12px; cursor: pointer;
+            text-transform: uppercase; outline: none; transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 247, 255, 0.1);
             display: flex; align-items: center; justify-content: center;
         }
 
         .glow-button:hover {
             border-color: var(--neon-glow);
-            box-shadow: 0 0 20px var(--neon-glow);
+            box-shadow: 0 0 20px var(--neon-glow), inset 0 0 10px rgba(0, 247, 255, 0.2);
             color: #fff;
         }
 
         .main-container {
-            width: 100%; 
-            max-width: 500px; 
-            padding: 15px; 
-            background: var(--container-bg);
-            border: 1px solid rgba(0, 247, 255, 0.2); 
-            border-radius: 20px; 
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5); 
+            width: 100%; max-width: 500px; padding: 15px; background: var(--container-bg);
+            border: 1px solid rgba(0, 247, 255, 0.2); border-radius: 20px; text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
         }
 
-        #androidVideo { 
-            width: 100%; 
-            height: auto; 
-            max-height: 250px; 
-            object-fit: cover; 
-            border-radius: 12px; 
-            filter: brightness(1.1); 
-            margin-bottom: 10px; 
-        }
+        #androidVideo { width: 100%; height: auto; max-height: 250px; object-fit: cover; border-radius: 12px; filter: brightness(1.1); margin-bottom: 10px; }
 
         .player-box {
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between;
-            gap: 10px; 
-            padding: 10px 15px; 
-            background: var(--player-bg);
-            border: 1px solid rgba(0, 247, 255, 0.2); 
-            border-radius: 12px; 
-            margin: 10px 0;
-            box-sizing: border-box;
+            display: flex; align-items: center; justify-content: space-between; gap: 10px;
+            padding: 10px 15px; background: var(--player-bg); border: 1px solid rgba(0, 247, 255, 0.2);
+            border-radius: 12px; margin: 10px 0; box-sizing: border-box;
         }
 
-        h1 { 
-            letter-spacing: 10px; 
-            text-transform: uppercase; 
-            margin: 10px 0 0px; 
-            font-size: clamp(1.2rem, 5vw, 2rem); 
-            color: var(--neon-glow);
-            text-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
+        h1 { letter-spacing: 10px; text-transform: uppercase; margin: 10px 0 0px; font-size: clamp(1.2rem, 5vw, 2rem); color: var(--neon-glow); text-shadow: 0 0 10px rgba(0, 247, 255, 0.3); }
+
+        .play-btn { 
+            width: 55px; height: 55px; border-radius: 50%; font-size: 20px; flex-shrink: 0;
+            box-shadow: 0 0 15px rgba(0, 247, 255, 0.2);
         }
 
-        .play-btn { width: 55px; height: 55px; border-radius: 50%; font-size: 20px; flex-shrink: 0; }
+        .visual-container { flex-grow: 1; display: flex; align-items: flex-end; justify-content: center; gap: 3px; height: 35px; overflow: hidden; }
+        .v-bar { width: 3px; height: 5px; background: linear-gradient(to top, #00f7ff, #00ff22, #ffee00, #ff0000); border-radius: 2px; transition: height 0.1s ease; }
 
-        .visual-container {
-            flex-grow: 1; 
-            display: flex; 
-            align-items: flex-end; 
-            justify-content: center; 
-            gap: 3px; 
-            height: 35px; 
-            overflow: hidden;
-        }
-
-        .v-bar {
-            width: 3px; 
-            height: 5px; 
-            background: linear-gradient(to top, #00f7ff, #00ff22, #ffee00, #ff0000); 
-            border-radius: 2px;
-            transition: height 0.1s ease;
-        }
-
+        /* --- СТИЛИЗАЦИЯ ПОЛЗУНКА ЗВУКА --- */
         .volume-box { display: flex; align-items: center; gap: 12px; width: 130px; }
-        .volume-icon { width: 20px; height: 20px; fill: var(--neon-glow); flex-shrink: 0; filter: drop-shadow(0 0 2px var(--neon-glow)); }
-        
+        .volume-icon { width: 20px; height: 20px; fill: var(--neon-glow); filter: drop-shadow(0 0 5px var(--neon-glow)); }
+
         #volumeRange { -webkit-appearance: none; width: 100%; background: transparent; cursor: pointer; }
-        #volumeRange::-webkit-slider-runnable-track { width: 100%; height: 5px; background: rgba(0, 247, 255, 0.1); border-radius: 3px; }
+        
+        /* Дорожка ползунка */
+        #volumeRange::-webkit-slider-runnable-track {
+            width: 100%; height: 4px; background: rgba(0, 247, 255, 0.1); border-radius: 2px;
+            border: 1px solid rgba(0, 247, 255, 0.2);
+        }
+
+        /* "Кнопка" (движок) ползунка */
         #volumeRange::-webkit-slider-thumb {
-            height: 16px; width: 16px; border-radius: 50%; 
-            background: var(--bg-deep); 
-            border: 2px solid var(--neon-glow);
-            -webkit-appearance: none; 
-            margin-top: -6px; 
-            box-shadow: 0 0 8px var(--neon-glow); 
+            -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%;
+            background: var(--container-bg); border: 2px solid var(--neon-glow);
+            margin-top: -7px; box-shadow: 0 0 10px var(--neon-glow);
             transition: all 0.3s ease;
         }
 
-        .chat-container { 
-            display: flex; 
-            flex-direction: column; 
-            text-align: left; 
-            border-top: 1px solid rgba(255, 255, 255, 0.05); 
-            padding-top: 5px; 
+        #volumeRange:hover::-webkit-slider-thumb {
+            background: var(--neon-glow); box-shadow: 0 0 15px var(--neon-glow), 0 0 5px #fff;
+            transform: scale(1.2);
         }
 
-        .chat-window { 
-            height: 180px; 
-            background: var(--chat-bg); 
-            padding: 12px; 
-            border-radius: 12px; 
-            margin-top: 10px; 
-            border: 1px solid rgba(255,255,255,0.05);
-            overflow-y: auto; 
-            order: 3;
-            display: flex;
-            flex-direction: column;
+        /* --- СТИЛИЗАЦИЯ ЧАТА И СКРОЛЛБАРА --- */
+        .chat-container { display: flex; flex-direction: column; text-align: left; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 5px; }
+
+        .chat-window {
+            height: 180px; background: var(--chat-bg); padding: 12px; border-radius: 12px;
+            margin-top: 10px; border: 1px solid rgba(0, 247, 255, 0.1);
+            overflow-y: auto; order: 3; display: flex; flex-direction: column;
+            scrollbar-width: thin; scrollbar-color: var(--neon-glow) transparent; /* Для Firefox */
         }
 
-        #msgInput { order: 1; width: 100%; background: rgba(10, 11, 30, 0.6); border: 1px solid rgba(0, 247, 255, 0.2); border-radius: 12px; padding: 15px 20px; color: var(--neon-glow); font-family: 'Montserrat', sans-serif; font-size: 1rem; outline: none; margin-bottom: 15px; transition: all 0.3s ease; box-sizing: border-box; }
+        /* Скроллбар для Chrome, Safari, Edge */
+        .chat-window::-webkit-scrollbar { width: 6px; }
+        .chat-window::-webkit-scrollbar-track { background: transparent; }
+        .chat-window::-webkit-scrollbar-thumb {
+            background: rgba(0, 247, 255, 0.3); border-radius: 10px;
+            border: 1px solid rgba(0, 247, 255, 0.1);
+        }
+        .chat-window::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-glow); box-shadow: 0 0 10px var(--neon-glow);
+        }
+
+        #msgInput { 
+            order: 1; width: 100%; background: rgba(10, 11, 30, 0.6); border: 1px solid rgba(0, 247, 255, 0.2);
+            border-radius: 12px; padding: 15px 20px; color: var(--neon-glow); font-family: 'Montserrat', sans-serif;
+            font-size: 1rem; outline: none; margin-bottom: 15px; transition: all 0.3s ease; box-sizing: border-box;
+        }
         #msgInput:focus { border-color: var(--neon-glow); box-shadow: 0 0 15px rgba(0, 247, 255, 0.2); background: rgba(10, 11, 30, 0.8); }
 
         #openLogin { order: 2; }
 
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85); display: none; justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(8px);
-        }
-        .modal-content {
-            background: var(--container-bg); padding: 50px 40px; border: 1px solid var(--neon-glow); 
-            width: 380px; text-align: center; position: relative; border-radius: 18px;
-        }
+        /* ... стили модального окна без изменений ... */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); display: none; justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(8px); }
+        .modal-content { background: var(--container-bg); padding: 50px 40px; border: 1px solid var(--neon-glow); width: 380px; text-align: center; position: relative; border-radius: 18px; box-shadow: 0 0 30px rgba(0, 247, 255, 0.2); }
         .close-modal { position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; }
-        .modal-content input {
-            width: 100%; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(0, 247, 255, 0.2); 
-            padding: 15px; margin-bottom: 15px; color: white; box-sizing: border-box; border-radius: 8px; outline: none;
-        }
+        .modal-content input { width: 100%; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(0, 247, 255, 0.2); padding: 15px; margin-bottom: 15px; color: white; box-sizing: border-box; border-radius: 8px; outline: none; }
 
         @media (max-width: 600px) {
             .main-container { padding: 10px 10px 5px; border: none; background: transparent; box-shadow: none; }
@@ -426,6 +382,7 @@
     </script>
 </body>
 </html>
+
 
 
 
