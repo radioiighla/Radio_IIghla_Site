@@ -72,23 +72,22 @@
 
         #volumeRange { -webkit-appearance: none; width: 100%; background: transparent; cursor: pointer; }
         
-        /* Дорожка ползунка */
         #volumeRange::-webkit-slider-runnable-track {
-            width: 100%; height: 4px; background: rgba(0, 247, 255, 0.1); border-radius: 2px;
-            border: 1px solid rgba(0, 247, 255, 0.2);
+            width: 100%; height: 2px; background: rgba(0, 247, 255, 0.1); border-radius: 2px;
         }
 
-        /* "Кнопка" (движок) ползунка */
         #volumeRange::-webkit-slider-thumb {
-            -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%;
-            background: var(--container-bg); border: 2px solid var(--neon-glow);
-            margin-top: -7px; box-shadow: 0 0 10px var(--neon-glow);
+            -webkit-appearance: none; height: 14px; width: 14px; border-radius: 50%;
+            background: var(--container-bg); 
+            border: 1px solid var(--neon-glow); 
+            margin-top: -6px; 
+            box-shadow: 0 0 5px rgba(0, 247, 255, 0.4); 
             transition: all 0.3s ease;
         }
 
         #volumeRange:hover::-webkit-slider-thumb {
-            background: var(--neon-glow); box-shadow: 0 0 15px var(--neon-glow), 0 0 5px #fff;
-            transform: scale(1.2);
+            box-shadow: 0 0 15px var(--neon-glow); 
+            transform: scale(1.1);
         }
 
         /* --- СТИЛИЗАЦИЯ ЧАТА И СКРОЛЛБАРА --- */
@@ -97,31 +96,29 @@
         .chat-window {
             height: 180px; background: var(--chat-bg); padding: 12px; border-radius: 12px;
             margin-top: 10px; border: 1px solid rgba(0, 247, 255, 0.1);
-            overflow-y: auto; order: 3; display: flex; flex-direction: column;
-            scrollbar-width: thin; scrollbar-color: var(--neon-glow) transparent; /* Для Firefox */
+            overflow-y: auto; display: flex; flex-direction: column-reverse; /* Реверс для новых сообщений снизу */
+            scrollbar-width: thin; scrollbar-color: rgba(0, 247, 255, 0.2) transparent;
         }
 
-        /* Скроллбар для Chrome, Safari, Edge */
-        .chat-window::-webkit-scrollbar { width: 6px; }
+        /* Хром и другие браузеры */
+        .chat-window::-webkit-scrollbar { width: 4px; }
         .chat-window::-webkit-scrollbar-track { background: transparent; }
         .chat-window::-webkit-scrollbar-thumb {
-            background: rgba(0, 247, 255, 0.3); border-radius: 10px;
-            border: 1px solid rgba(0, 247, 255, 0.1);
+            background: rgba(0, 247, 255, 0.1); border-radius: 10px;
+            border: 1px solid rgba(0, 247, 255, 0.1); transition: all 0.3s ease;
         }
-        .chat-window::-webkit-scrollbar-thumb:hover {
-            background: var(--neon-glow); box-shadow: 0 0 10px var(--neon-glow);
+        .chat-window:hover::-webkit-scrollbar-thumb {
+            background: rgba(0, 247, 255, 0.3); box-shadow: 0 0 10px rgba(0, 247, 255, 0.4);
         }
 
         #msgInput { 
-            order: 1; width: 100%; background: rgba(10, 11, 30, 0.6); border: 1px solid rgba(0, 247, 255, 0.2);
+            width: 100%; background: rgba(10, 11, 30, 0.6); border: 1px solid rgba(0, 247, 255, 0.2);
             border-radius: 12px; padding: 15px 20px; color: var(--neon-glow); font-family: 'Montserrat', sans-serif;
             font-size: 1rem; outline: none; margin-bottom: 15px; transition: all 0.3s ease; box-sizing: border-box;
         }
         #msgInput:focus { border-color: var(--neon-glow); box-shadow: 0 0 15px rgba(0, 247, 255, 0.2); background: rgba(10, 11, 30, 0.8); }
 
-        #openLogin { order: 2; }
-
-        /* ... стили модального окна без изменений ... */
+        /* МОДАЛЬНОЕ ОКНО */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); display: none; justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(8px); }
         .modal-content { background: var(--container-bg); padding: 50px 40px; border: 1px solid var(--neon-glow); width: 380px; text-align: center; position: relative; border-radius: 18px; box-shadow: 0 0 30px rgba(0, 247, 255, 0.2); }
         .close-modal { position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; }
@@ -382,6 +379,7 @@
     </script>
 </body>
 </html>
+
 
 
 
