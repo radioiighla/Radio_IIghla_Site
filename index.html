@@ -195,10 +195,20 @@
         }
 
         @media (max-width: 600px) {
-            body { padding: 10px; align-items: flex-start; }
-            .main-container { padding: 20px 15px; border: none; background: transparent; }
-            h1 { font-size: 1.5rem; letter-spacing: 5px; }
-            .player-box { flex-direction: column; gap: 15px; }
+            body { padding: 5px; }
+            .main-container { padding: 10px; border: none; background: transparent; }
+            h1 { font-size: 1.2rem; letter-spacing: 4px; }
+            
+            /* Усмиряем плеер на мобилках */
+            .player-box { 
+                flex-direction: row !important; /* Запрещаем кнопкам падать друг под друга */
+                flex-wrap: nowrap;
+                padding: 8px;
+            }
+            .play-btn { width: 40px; height: 40px; font-size: 16px; }
+            .volume-box { width: 80px; gap: 5px; }
+            .volume-icon { width: 15px; }
+            .visual-container { gap: 2px; height: 30px; }
         }
     </style>
 </head>
@@ -449,6 +459,7 @@
     </script>
 </body>
 </html>
+
 
 
 
