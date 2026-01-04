@@ -64,14 +64,14 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5); /* Добавляем объемную тень */
         }
 
-        #androidVideo { width: 100%; max-height: 300px; object-fit: cover; border-radius: 8px; filter: brightness(1.1); }
-        h1 { letter-spacing: 10px; text-transform: uppercase; margin: 25px 0 10px; font-size: 2.2rem; }
-        .slogan { font-size: 1rem; letter-spacing: 4px; color: #5c6299; margin-bottom: 30px; }
-
-        .player-box {
-            display: flex; align-items: center; gap: 20px; padding: 20px 25px;
-            background: var(--player-bg);
-            border-radius: 15px; margin-bottom: 30px;
+       #androidVideo { 
+            width: 100%; 
+            height: auto; /* Высота будет подстраиваться автоматически под ширину */
+            max-height: 250px; /* Ограничим высоту, чтобы на экране оставалось место для плеера и чата */
+            object-fit: cover; /* Видео красиво заполнит отведенное место без черных полос */
+            border-radius: 12px; 
+            filter: brightness(1.1); 
+            margin-bottom: 10px; /* Отступ от видео до заголовка */
         }
 
         .play-btn { width: 55px; height: 55px; border-radius: 50%; font-size: 20px; flex-shrink: 0; }
@@ -420,6 +420,7 @@
     </script>
 </body>
 </html>
+
 
 
 
