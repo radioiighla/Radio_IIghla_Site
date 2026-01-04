@@ -73,15 +73,17 @@
             filter: brightness(1.1); 
             margin-bottom: 10px; /* Отступ от видео до заголовка */
         }
-        .player-box {
+      .player-box {
             display: flex; 
             align-items: center; 
-            gap: 15px;            /* Расстояние между кнопкой, барами и громкостью */
-            padding: 15px 20px;   /* Внутренние отступы */
-            background: var(--player-bg); /* Темно-синий фон плеера */
-            border-radius: 15px;  /* Скругление углов */
-            margin: 20px 0;       /* Отступы сверху и снизу от плеера */
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5); /* Внутренняя тень для глубины */
+            gap: 15px; 
+            padding: 15px; 
+            background: var(--player-bg);
+            /* Добавляем бортик как у видео и чата */
+            border: 1px solid rgba(0, 247, 255, 0.2); 
+            border-radius: 12px; 
+            margin: 20px 0;
+            box-sizing: border-box; /* Чтобы рамка не раздувала блок */
         }
     h1 { 
             letter-spacing: 10px; 
@@ -443,6 +445,7 @@
     </script>
 </body>
 </html>
+
 
 
 
