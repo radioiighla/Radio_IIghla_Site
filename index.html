@@ -194,21 +194,53 @@
             padding: 15px; margin-bottom: 15px; color: white; box-sizing: border-box; border-radius: 8px; outline: none;
         }
 
-        @media (max-width: 600px) {
+       @media (max-width: 600px) {
             body { padding: 5px; }
-            .main-container { padding: 10px; border: none; background: transparent; }
-            h1 { font-size: 1.2rem; letter-spacing: 4px; }
-            
-            /* Усмиряем плеер на мобилках */
-            .player-box { 
-                flex-direction: row !important; /* Запрещаем кнопкам падать друг под друга */
-                flex-wrap: nowrap;
-                padding: 8px;
+            /* Убираем лишние отступы у контейнера */
+            .main-container { 
+                padding: 10px 10px 5px; 
+                border: none; 
+                background: transparent; 
+                box-shadow: none; 
             }
-            .play-btn { width: 40px; height: 40px; font-size: 16px; }
-            .volume-box { width: 80px; gap: 5px; }
+            
+            h1 { 
+                font-size: 1.2rem; 
+                letter-spacing: 4px; 
+                margin: 5px 0 0; /* Подтягиваем заголовок выше к видео */
+            }
+
+            .slogan {
+                margin-bottom: 5px; /* Уменьшаем дырку под слоганом */
+                font-size: 0.75rem;
+            }
+
+            video {
+                margin-bottom: 2px; /* Почти вплотную к буквам */
+                max-height: 200px;  /* Чуть меньше видео, чтобы влез чат */
+            }
+
+            .player-box {
+                margin: 5px 0; 
+                padding: 8px;
+                flex-direction: row !important;
+                flex-wrap: nowrap;
+            }
+
+            .play-btn { width: 42px; height: 42px; font-size: 16px; }
+            .volume-box { width: 85px; gap: 5px; }
             .volume-icon { width: 15px; }
             .visual-container { gap: 2px; height: 30px; }
+
+            .chat-window {
+                height: 140px; /* Немного уменьшаем высоту чата для маленьких экранов */
+                margin-top: 5px;
+            }
+            
+            #msgInput {
+                padding: 10px;
+                margin-bottom: 8px;
+            }
         }
     </style>
 </head>
@@ -459,6 +491,7 @@
     </script>
 </body>
 </html>
+
 
 
 
