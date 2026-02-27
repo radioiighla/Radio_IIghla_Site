@@ -140,6 +140,7 @@
 
         #volumeRange {
             -webkit-appearance: none;
+            appearance: none;
             width: 100%;
             background: transparent;
             cursor: pointer;
@@ -511,8 +512,9 @@
             const textContent = input.value.trim();
             if (!textContent) return;
 
-            // Сначала добавляем сообщение в чат локально (мгновенно)
+            // Добавляем сообщение локально и в список отслеживания, чтобы не было дублей при синхронизации
             addChatMessage(currentUser.name, textContent);
+            displayedMessages.add(`${currentUser.name}:${textContent}`);
             input.value = '';
 
             // Затем отправляем в "Excel" (Google Таблицу) в фоне
@@ -525,10 +527,28 @@
             googleSync(params);
         }
 
+        let displayedMessages = new Set();
+
         function subscribeToMessages() {
-            // Синхронизация сообщений от других пользователей отключена для простоты (как вы просили)
-            console.log("Синхронизация отключена. Работает локальный эхо-режим.");
-        };
+            // Проверяем наличие новых сообщений каждые 5 секунд
+            setInterval(async () => {
+                const params = new URLSearchParams();
+                params.append('type', 'get');
+                const result = await googleSync(params);
+
+                if (result && result.status === 'success' && Array.isArray(result.messages)) {
+                    // Обрабатываем сообщения снизу вверх (от новых к старым в интерфейсе)
+                    // Но в базе они идут от старых к новым, поэтому берем как есть
+                    result.messages.forEach(msg => {
+                        const msgId = `${msg.name}:${msg.message}`;
+                        if (!displayedMessages.has(msgId)) {
+                            addChatMessage(msg.name, msg.message);
+                            displayedMessages.add(msgId);
+                        }
+                    });
+                }
+            }, 5000);
+        }
 
         async function updateInfo() {
             try {
