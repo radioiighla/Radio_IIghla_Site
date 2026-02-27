@@ -351,9 +351,7 @@
         <div class="chat-container">
             <button class="glow-button" id="openLogin"
                 style="width: 100%; padding: 20px; letter-spacing: 4px; font-size: 1.1rem; margin-bottom: 10px;">Проявиться</button>
-            <button id="resetSession"
-                style="background: none; border: 1px solid #333; color: #555; cursor: pointer; padding: 5px; border-radius: 5px; font-size: 0.7rem; margin-bottom: 10px;">Сбросить
-                сессию (для теста)</button>
+
             <div class="chat-window" id="chatWindow"></div>
         </div>
     </div>
@@ -593,10 +591,7 @@
         } else {
             addChatMessage('ИИгла', 'Узел связи активен. Синхронизируем цели. Проявляйся', true);
         }
-        document.getElementById('resetSession').onclick = () => {
-            localStorage.removeItem('iigla_user');
-            location.reload();
-        };
+
     </script>
 </body>
 
