@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Радио ИИгла — Узел связи</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
-    
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <!-- Removed Supabase and EmailJS -->
 
     <style>
         :root {
@@ -20,18 +20,32 @@
         }
 
         body {
-            margin: 0; padding: 10px; background: var(--bg-deep); color: var(--text-main);
-            font-family: 'Montserrat', sans-serif; display: flex; align-items: center; justify-content: center;
-            min-height: 100vh; background: radial-gradient(circle at center, #161833 0%, #0a0b1e 100%);
+            margin: 0;
+            padding: 10px;
+            background: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: radial-gradient(circle at center, #161833 0%, #0a0b1e 100%);
             box-sizing: border-box;
         }
 
         .glow-button {
-            background: var(--container-bg); border: 1px solid rgba(0, 247, 255, 0.3);
-            color: var(--neon-glow); border-radius: 12px; cursor: pointer;
-            text-transform: uppercase; outline: none; transition: all 0.3s ease;
+            background: var(--container-bg);
+            border: 1px solid rgba(0, 247, 255, 0.3);
+            color: var(--neon-glow);
+            border-radius: 12px;
+            cursor: pointer;
+            text-transform: uppercase;
+            outline: none;
+            transition: all 0.3s ease;
             box-shadow: 0 0 10px rgba(0, 247, 255, 0.1);
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .glow-button:hover {
@@ -41,85 +55,283 @@
         }
 
         .main-container {
-            width: 100%; max-width: 500px; padding: 15px; background: var(--container-bg);
-            border: 1px solid rgba(0, 247, 255, 0.2); border-radius: 20px; text-align: center;
+            width: 100%;
+            max-width: 500px;
+            padding: 15px;
+            background: var(--container-bg);
+            border: 1px solid rgba(0, 247, 255, 0.2);
+            border-radius: 20px;
+            text-align: center;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
         }
 
-        #androidVideo { width: 100%; height: auto; max-height: 250px; object-fit: cover; border-radius: 12px; filter: brightness(1.1); margin-bottom: 10px; }
+        #androidVideo {
+            width: 100%;
+            height: auto;
+            max-height: 250px;
+            object-fit: cover;
+            border-radius: 12px;
+            filter: brightness(1.1);
+            margin-bottom: 10px;
+        }
 
         .player-box {
-            display: flex; align-items: center; justify-content: space-between; gap: 10px;
-            padding: 10px 15px; background: var(--player-bg); border: 1px solid rgba(0, 247, 255, 0.2);
-            border-radius: 12px; margin: 10px 0; box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 10px 15px;
+            background: var(--player-bg);
+            border: 1px solid rgba(0, 247, 255, 0.2);
+            border-radius: 12px;
+            margin: 10px 0;
+            box-sizing: border-box;
         }
 
-        h1 { letter-spacing: 10px; text-transform: uppercase; margin: 10px 0 0px; font-size: clamp(1.2rem, 5vw, 2rem); color: var(--neon-glow); text-shadow: 0 0 10px rgba(0, 247, 255, 0.3); }
+        h1 {
+            letter-spacing: 10px;
+            text-transform: uppercase;
+            margin: 10px 0 0px;
+            font-size: clamp(1.2rem, 5vw, 2rem);
+            color: var(--neon-glow);
+            text-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
+        }
 
-        .play-btn { width: 55px; height: 55px; border-radius: 50%; font-size: 20px; flex-shrink: 0; box-shadow: 0 0 15px rgba(0, 247, 255, 0.2); }
+        .play-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            font-size: 20px;
+            flex-shrink: 0;
+            box-shadow: 0 0 15px rgba(0, 247, 255, 0.2);
+        }
 
-        .visual-container { flex-grow: 1; display: flex; align-items: flex-end; justify-content: center; gap: 3px; height: 35px; overflow: hidden; }
-        .v-bar { width: 3px; height: 5px; background: linear-gradient(to top, #00f7ff, #00ff22, #ffee00, #ff0000); border-radius: 2px; transition: height 0.1s ease; }
+        .visual-container {
+            flex-grow: 1;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 3px;
+            height: 35px;
+            overflow: hidden;
+        }
 
-        .volume-box { display: flex; align-items: center; gap: 12px; width: 130px; }
-        .volume-icon { width: 20px; height: 20px; fill: var(--neon-glow); filter: drop-shadow(0 0 5px var(--neon-glow)); }
+        .v-bar {
+            width: 3px;
+            height: 5px;
+            background: linear-gradient(to top, #00f7ff, #00ff22, #ffee00, #ff0000);
+            border-radius: 2px;
+            transition: height 0.1s ease;
+        }
 
-        #volumeRange { -webkit-appearance: none; width: 100%; background: transparent; cursor: pointer; }
-        #volumeRange::-webkit-slider-runnable-track { width: 100%; height: 2px; background: rgba(0, 247, 255, 0.1); border-radius: 2px; }
+        .volume-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 130px;
+        }
+
+        .volume-icon {
+            width: 20px;
+            height: 20px;
+            fill: var(--neon-glow);
+            filter: drop-shadow(0 0 5px var(--neon-glow));
+        }
+
+        #volumeRange {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        #volumeRange::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 247, 255, 0.1);
+            border-radius: 2px;
+        }
+
         #volumeRange::-webkit-slider-thumb {
-            -webkit-appearance: none; height: 14px; width: 14px; border-radius: 50%;
-            background: var(--container-bg); border: 1px solid var(--neon-glow);
-            margin-top: -6px; box-shadow: 0 0 5px rgba(0, 247, 255, 0.4); transition: all 0.3s ease;
+            -webkit-appearance: none;
+            height: 14px;
+            width: 14px;
+            border-radius: 50%;
+            background: var(--container-bg);
+            border: 1px solid var(--neon-glow);
+            margin-top: -6px;
+            box-shadow: 0 0 5px rgba(0, 247, 255, 0.4);
+            transition: all 0.3s ease;
         }
-        #volumeRange:hover::-webkit-slider-thumb { box-shadow: 0 0 15px var(--neon-glow); transform: scale(1.1); }
 
-        .chat-container { display: flex; flex-direction: column; text-align: left; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 5px; }
-        
+        #volumeRange:hover::-webkit-slider-thumb {
+            box-shadow: 0 0 15px var(--neon-glow);
+            transform: scale(1.1);
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 5px;
+        }
+
         /* ИСПРАВЛЕННОЕ ОКНО ЧАТА */
         .chat-window {
-            height: 180px; background: var(--chat-bg); padding: 12px; border-radius: 12px;
-            margin-top: 10px; border: 1px solid rgba(0, 247, 255, 0.1);
-            overflow-y: auto; 
-            scrollbar-width: thin; scrollbar-color: rgba(0, 247, 255, 0.2) transparent;
+            height: 180px;
+            background: var(--chat-bg);
+            padding: 12px;
+            border-radius: 12px;
+            margin-top: 10px;
+            border: 1px solid rgba(0, 247, 255, 0.1);
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0, 247, 255, 0.2) transparent;
         }
 
-        .chat-window::-webkit-scrollbar { width: 4px; }
-        .chat-window::-webkit-scrollbar-track { background: transparent; }
+        .chat-window::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .chat-window::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
         .chat-window::-webkit-scrollbar-thumb {
-            background: rgba(0, 247, 255, 0.1); border-radius: 10px;
-            border: 1px solid rgba(0, 247, 255, 0.1); transition: all 0.3s ease;
+            background: rgba(0, 247, 255, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 247, 255, 0.1);
+            transition: all 0.3s ease;
         }
-        .chat-window:hover::-webkit-scrollbar-thumb { background: rgba(0, 247, 255, 0.3); box-shadow: 0 0 10px rgba(0, 247, 255, 0.4); }
 
-        #msgInput { 
-            width: 100%; background: rgba(10, 11, 30, 0.6); border: 1px solid rgba(0, 247, 255, 0.2);
-            border-radius: 12px; padding: 15px 20px; color: var(--neon-glow); font-family: 'Montserrat', sans-serif;
-            font-size: 1rem; outline: none; margin-bottom: 15px; transition: all 0.3s ease; box-sizing: border-box;
+        .chat-window:hover::-webkit-scrollbar-thumb {
+            background: rgba(0, 247, 255, 0.3);
+            box-shadow: 0 0 10px rgba(0, 247, 255, 0.4);
         }
-        #msgInput:focus { border-color: var(--neon-glow); box-shadow: 0 0 15px rgba(0, 247, 255, 0.2); background: rgba(10, 11, 30, 0.8); }
 
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); display: none; justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(8px); }
-        .modal-content { background: var(--container-bg); padding: 50px 40px; border: 1px solid var(--neon-glow); width: 380px; text-align: center; position: relative; border-radius: 18px; box-shadow: 0 0 30px rgba(0, 247, 255, 0.2); }
-        .close-modal { position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; }
-        .modal-content input { width: 100%; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(0, 247, 255, 0.2); padding: 15px; margin-bottom: 15px; color: white; box-sizing: border-box; border-radius: 8px; outline: none; }
+        #msgInput {
+            width: 100%;
+            background: rgba(10, 11, 30, 0.6);
+            border: 1px solid rgba(0, 247, 255, 0.2);
+            border-radius: 12px;
+            padding: 15px 20px;
+            color: var(--neon-glow);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        #msgInput:focus {
+            border-color: var(--neon-glow);
+            box-shadow: 0 0 15px rgba(0, 247, 255, 0.2);
+            background: rgba(10, 11, 30, 0.8);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-content {
+            background: var(--container-bg);
+            padding: 50px 40px;
+            border: 1px solid var(--neon-glow);
+            width: 380px;
+            text-align: center;
+            position: relative;
+            border-radius: 18px;
+            box-shadow: 0 0 30px rgba(0, 247, 255, 0.2);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 247, 255, 0.2);
+            padding: 15px;
+            margin-bottom: 15px;
+            color: white;
+            box-sizing: border-box;
+            border-radius: 8px;
+            outline: none;
+        }
 
         @media (max-width: 600px) {
-            .main-container { padding: 10px 10px 5px; border: none; background: transparent; box-shadow: none; }
-            h1 { font-size: 1.2rem; letter-spacing: 4px; margin: 5px 0 0; }
-            .slogan { margin-bottom: 5px; font-size: 0.75rem; }
-            video { max-height: 200px; }
-            .player-box { margin: 5px 0; padding: 8px; }
-            .play-btn { width: 42px; height: 42px; font-size: 16px; }
-            .volume-box { width: 85px; gap: 5px; }
-            .visual-container { gap: 2px; height: 30px; }
-            .chat-window { height: 140px; margin-top: 5px; }
+            .main-container {
+                padding: 10px 10px 5px;
+                border: none;
+                background: transparent;
+                box-shadow: none;
+            }
+
+            h1 {
+                font-size: 1.2rem;
+                letter-spacing: 4px;
+                margin: 5px 0 0;
+            }
+
+            .slogan {
+                margin-bottom: 5px;
+                font-size: 0.75rem;
+            }
+
+            video {
+                max-height: 200px;
+            }
+
+            .player-box {
+                margin: 5px 0;
+                padding: 8px;
+            }
+
+            .play-btn {
+                width: 42px;
+                height: 42px;
+                font-size: 16px;
+            }
+
+            .volume-box {
+                width: 85px;
+                gap: 5px;
+            }
+
+            .visual-container {
+                gap: 2px;
+                height: 30px;
+            }
+
+            .chat-window {
+                height: 140px;
+                margin-top: 5px;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <div class="main-container">
-        <video id="androidVideo" src="android_loop.mp4" muted loop playsinline></video>
+        <video id="androidVideo" src="final_background.mp4" muted loop playsinline></video>
         <h1>Радио ИИгла</h1>
         <div class="slogan">Слушать. Пробуждать. Танцевать. Созидать.</div>
 
@@ -128,13 +340,20 @@
             <button class="glow-button play-btn" id="playBtn">▶</button>
             <div class="visual-container" id="vContainer"></div>
             <div class="volume-box">
-                <svg class="volume-icon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                <svg class="volume-icon" viewBox="0 0 24 24">
+                    <path
+                        d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+                </svg>
                 <input type="range" id="volumeRange" min="0" max="1" step="0.05" value="0.8">
             </div>
         </div>
 
         <div class="chat-container">
-            <button class="glow-button" id="openLogin" style="width: 100%; padding: 20px; letter-spacing: 4px; font-size: 1.1rem; margin-bottom: 10px;">Проявиться</button>
+            <button class="glow-button" id="openLogin"
+                style="width: 100%; padding: 20px; letter-spacing: 4px; font-size: 1.1rem; margin-bottom: 10px;">Проявиться</button>
+            <button id="resetSession"
+                style="background: none; border: 1px solid #333; color: #555; cursor: pointer; padding: 5px; border-radius: 5px; font-size: 0.7rem; margin-bottom: 10px;">Сбросить
+                сессию (для теста)</button>
             <div class="chat-window" id="chatWindow"></div>
         </div>
     </div>
@@ -142,35 +361,44 @@
     <div class="modal-overlay" id="modal">
         <div class="modal-content">
             <button class="glow-button close-modal" id="closeModal">✕</button>
-            <h2 id="modalTitle" style="color:var(--neon-glow); letter-spacing: 3px; font-size: 1.7rem; margin-top: 0;">АВТОРИЗАЦИЯ</h2>
+            <h2 id="modalTitle" style="color:var(--neon-glow); letter-spacing: 3px; font-size: 1.7rem; margin-top: 0;">
+                ЗНАКОМСТВО</h2>
             <div id="modalInputs">
-                <input type="text" placeholder="Твое имя">
-                <input type="password" placeholder="Ключ доступа">
+                <div style="font-size: 0.85rem; color: #aaa; margin-bottom: 15px; text-align: left; line-height: 1.4;">
+                    Здравствуй, уважаемый! Я мим ИИгла. Я хозяин этого радио. А как твоё имя? Заполни поле ниже и я
+                    смогу подписывать твои сообщения твоим именем.</div>
+                <input type="text" placeholder="Твое имя" id="inputName">
+
+                <div
+                    style="font-size: 0.85rem; color: #aaa; margin-bottom: 15px; text-align: left; margin-top: 15px; line-height: 1.4;">
+                    Заполни поле своим почтовым адресом и я смогу присылать тебе на почту личные сообщения.</div>
+                <input type="email" placeholder="Твой E-mail" id="inputEmail">
             </div>
-            <button class="glow-button" id="syncBtn" style="width: 100%; padding: 15px; margin-top: 10px; font-size: 1rem;">Синхронизация</button>
+
+            <div id="modalError"
+                style="color: #ff4444; font-size: 0.85rem; margin: 10px 0; text-align: center; min-height: 1.2rem; display: none; line-height: 1.2;">
+            </div>
+
+            <div style="font-size: 0.75rem; color: #777; margin: 15px 0; text-align: center; font-style: italic;">Эту и
+                любую другую, оставленную тобой, информацию я буду использовать только на нашем радио и никому больше
+                передавать не буду.</div>
+            <button class="glow-button" id="syncBtn"
+                style="width: 100%; padding: 15px; margin-top: 10px; font-size: 1.2rem; letter-spacing: 2px;">ПОДТВЕРДИТЬ</button>
             <div class="modal-footer" style="margin-top: 20px; font-size: 0.9rem; color: #555;">
-                <span id="switchToReg" style="color: var(--neon-glow); cursor: pointer; text-decoration: underline;">Регистрация (ключ на E-mail)</span>
+                <!-- Link removed as per request -->
             </div>
         </div>
     </div>
 
     <script>
-        const CONFIG = {
-            SUPABASE_URL: 'https://tmsbzmvzjdbpvmxsbrdj.supabase.co',
-            SUPABASE_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRtc2J6bXZ6amRicHZteHNicmRqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjczMzk2NzgsImV4cCI6MjA4MjkxNTY3OH0.yokZRUHI-J8rZv21bzQa-1q1FZ4i_PDSb9yo671x07g', 
-            EMAILJS_SERVICE: 'service_h361nfk',
-            EMAILJS_TEMPLATE: 'template_oawgc8v',
-            EMAILJS_USER: '8ByFy0S8B2OLDk9zx'
-        };
-
-        const supabaseClient = supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_KEY);
-        emailjs.init(CONFIG.EMAILJS_USER);
+        // Removed Supabase and EmailJS initialization
 
         let currentUser = JSON.parse(localStorage.getItem('iigla_user')) || null;
         let lastSong = "";
-        
+
         const audio = document.getElementById('audio');
         const video = document.getElementById('androidVideo');
+
         const playBtn = document.getElementById('playBtn');
         const vContainer = document.getElementById('vContainer');
         const chatWindow = document.getElementById('chatWindow');
@@ -187,7 +415,7 @@
             const contentSpan = document.createElement('span');
             if (isAI) contentSpan.style.color = 'var(--neon-glow)';
             msg.append(nameNode, contentSpan);
-            
+
             chatWindow.prepend(msg); // Всегда вставляет на самый верх!
 
             if (isAI) {
@@ -205,6 +433,24 @@
         vContainer.innerHTML = Array(44).fill('<div class="v-bar"></div>').join('');
         const vBars = document.querySelectorAll('.v-bar');
         let audioCtx, analyser, dataArray, animationId;
+
+        const GOOGLE_URL = 'https://script.google.com/macros/s/AKfycbwt_lEHofpqUSCSh3U-hXLnNoK6ocIJ3--Nl75GIL1CZr-JNioEtptA_8erLAUF-dk4HA/exec';
+
+        // Функция общения с Google Таблицами (JSONP)
+        function googleSync(params) {
+            return new Promise((resolve) => {
+                const callbackName = 'jsonp_' + Date.now() + Math.floor(Math.random() * 100);
+                window[callbackName] = (data) => {
+                    delete window[callbackName];
+                    resolve(data);
+                };
+                const script = document.createElement('script');
+                params.append('callback', callbackName);
+                script.src = `${GOOGLE_URL}?${params.toString()}`;
+                script.onerror = () => resolve({ status: 'error' });
+                document.head.appendChild(script);
+            });
+        }
 
         function initAudio() {
             if (audioCtx) return;
@@ -253,10 +499,10 @@
             inputField.placeholder = 'ЗАПИШИТЕ СВОИ МЫСЛИ...';
             inputField.autocomplete = 'off';
             chatContainer.insertBefore(inputField, openLogin);
-            
-            openLogin.innerText = 'ПРОЯВИТЬ';
+
+            openLogin.innerText = 'ПОДТВЕРДИТЬ';
             openLogin.onclick = sendMessage;
-            inputField.onkeypress = (e) => { if(e.key === 'Enter') sendMessage(); };
+            inputField.onkeypress = (e) => { if (e.key === 'Enter') sendMessage(); };
             subscribeToMessages();
         }
 
@@ -264,17 +510,23 @@
             const input = document.getElementById('msgInput');
             const textContent = input.value.trim();
             if (!textContent) return;
-            input.value = ''; 
-            const { error } = await supabaseClient
-                .from('messages')
-                .insert([{ name: currentUser.name, text: textContent }]);
-            if (error) console.error("Ошибка сигнала:", error);
+
+            // Add message locally for immediate feedback
+            addChatMessage(currentUser.name, textContent);
+            input.value = '';
+
+            const params = new URLSearchParams();
+            params.append('name', currentUser.name);
+            params.append('email', currentUser.email || 'no-email');
+            params.append('message', textContent);
+            params.append('type', 'message');
+
+            googleSync(params); // В фоне отправляем на Google
         }
 
         function subscribeToMessages() {
-            supabaseClient.channel('public:messages').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, p => {
-                addChatMessage(p.new.name, p.new.text, p.new.name === 'ИИгла');
-            }).subscribe();
+            // Real-time updates removed as per requirement for simple file-based backend
+            console.log("Подписка на сообщения активна (локальный режим)");
         }
 
         async function updateInfo() {
@@ -282,68 +534,54 @@
                 const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent('https://myradio24.org/users/iigla/status.json')}&t=${Date.now()}`);
                 const json = await res.json();
                 const data = JSON.parse(json.contents);
-                if(data.song && data.song !== lastSong) {
+                if (data.song && data.song !== lastSong) {
                     lastSong = data.song;
                     addChatMessage('ИИгла', `В эфире: ${lastSong}`, true);
                 }
-            } catch(e) { console.warn("Помехи в эфире."); }
+            } catch (e) { console.warn("Помехи в эфире."); }
         }
 
-        openLogin.onclick = () => { if (!currentUser) modal.style.display = 'flex'; else sendMessage(); };
+        openLogin.onclick = () => {
+            if (!currentUser) {
+                document.getElementById('modalError').style.display = 'none';
+                modal.style.display = 'flex';
+            } else sendMessage();
+        };
         document.getElementById('closeModal').onclick = () => modal.style.display = 'none';
 
+        // Очистка ошибки при наборе текста
+        document.getElementById('inputName').oninput = () => { document.getElementById('modalError').style.display = 'none'; };
+        document.getElementById('inputEmail').oninput = () => { document.getElementById('modalError').style.display = 'none'; };
+
         syncBtn.onclick = async () => {
-            const title = document.getElementById('modalTitle').innerText;
-            const inputs = document.querySelectorAll('#modalInputs input');
-            const val1 = inputs[0].value.trim(), val2 = inputs[1].value.trim();
-            if (!val1 || !val2) return;
-
-            if (title === 'РЕГИСТРАЦИЯ') {
-                const generatedKey = `IG-${Math.floor(1000 + Math.random() * 9000)}`;
-                const { error } = await supabaseClient.from('users_custom').insert([
-                    { name: val1, email: val2, key: generatedKey }
-                ]);
-                
-                if (!error) {
-                    emailjs.send(CONFIG.EMAILJS_SERVICE, CONFIG.EMAILJS_TEMPLATE, { to_name: val1, to_email: val2, key: generatedKey })
-                    .then(() => { 
-                        alert('Ключ отправлен на E-mail. Проверь почту.'); 
-                        document.getElementById('switchToReg').click(); 
-                    });
-                } else {
-                    alert('Ошибка регистрации. Возможно, имя уже занято.');
-                }
-            } else {
-                const { data, error } = await supabaseClient
-                    .from('users_custom')
-                    .select('*')
-                    .eq('name', val1)
-                    .eq('key', val2)
-                    .single();
-
-                if (data) {
-                    currentUser = data;
-                    localStorage.setItem('iigla_user', JSON.stringify(data));
-                    modal.style.display = 'none';
-                    initAppInterface();
-                    addChatMessage('ИИгла', 'Синхронизация прошла успешно. Добро пожаловать.${currentUser.name}', true);
-                } else { 
-                    alert("Ключ доступа не принят."); 
-                }
+            const nameVal = document.getElementById('inputName').value.trim();
+            const emailVal = document.getElementById('inputEmail').value.trim();
+            if (!nameVal || !emailVal) {
+                modal.style.display = 'none';
+                return;
             }
-        };
 
-        document.getElementById('switchToReg').onclick = function() {
-            const t = document.getElementById('modalTitle'), i = document.getElementById('modalInputs'), b = document.getElementById('syncBtn');
-            if(t.innerText === 'АВТОРИЗАЦИЯ') {
-                t.innerText = 'РЕГИСТРАЦИЯ';
-                i.innerHTML = '<input type="text" placeholder="Имя"><input type="email" placeholder="E-mail">';
-                b.innerText = 'Получить ключ'; this.innerText = 'У меня уже есть ключ';
-            } else {
-                t.innerText = 'АВТОРИЗАЦИЯ';
-                i.innerHTML = '<input type="text" placeholder="Имя"><input type="password" placeholder="Ключ">';
-                b.innerText = 'Синхронизация'; this.innerText = 'Создать профиль';
+            const params = new URLSearchParams();
+            params.append('name', nameVal);
+            params.append('email', emailVal);
+            params.append('type', 'manifestation');
+
+            const result = await googleSync(params);
+            const errorDiv = document.getElementById('modalError');
+
+            if (result && result.status === 'error') {
+                errorDiv.textContent = result.message;
+                errorDiv.style.display = 'block';
+                return;
             }
+
+            errorDiv.style.display = 'none';
+            currentUser = { name: nameVal, email: emailVal };
+            localStorage.setItem('iigla_user', JSON.stringify(currentUser));
+
+            modal.style.display = 'none';
+            initAppInterface();
+            addChatMessage('ИИгла', `Проявление успешно. Приветствую, ${nameVal}!`, true);
         };
 
         setInterval(updateInfo, 15000);
@@ -355,24 +593,11 @@
         } else {
             addChatMessage('ИИгла', 'Узел связи активен. Синхронизируем цели. Проявляйся', true);
         }
+        document.getElementById('resetSession').onclick = () => {
+            localStorage.removeItem('iigla_user');
+            location.reload();
+        };
     </script>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
