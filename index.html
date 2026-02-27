@@ -511,23 +511,24 @@
             const textContent = input.value.trim();
             if (!textContent) return;
 
-            // Add message locally for immediate feedback
+            // Сначала добавляем сообщение в чат локально (мгновенно)
             addChatMessage(currentUser.name, textContent);
             input.value = '';
 
+            // Затем отправляем в "Excel" (Google Таблицу) в фоне
             const params = new URLSearchParams();
             params.append('name', currentUser.name);
             params.append('email', currentUser.email || 'no-email');
             params.append('message', textContent);
             params.append('type', 'message');
 
-            googleSync(params); // В фоне отправляем на Google
+            googleSync(params);
         }
 
         function subscribeToMessages() {
-            // Real-time updates removed as per requirement for simple file-based backend
-            console.log("Подписка на сообщения активна (локальный режим)");
-        }
+            // Синхронизация сообщений от других пользователей отключена для простоты (как вы просили)
+            console.log("Синхронизация отключена. Работает локальный эхо-режим.");
+        };
 
         async function updateInfo() {
             try {
